@@ -1,58 +1,179 @@
-.investments-header {
-  background-color: #006442; /* A green color for investments */
-  color: white;
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.investments-header h1 {
-  font-size: 3rem;
-  margin: 0;
-}
-
-.investments-content {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.investments-content h2 {
-  text-align: center;
-  font-size: 2.5rem;
+/* General Layout */
+.investments-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f6;
   color: #333;
-  margin-bottom: 40px;
 }
+
+/* 1. HERO SECTION */
+.invest-hero {
+  background: linear-gradient(to right, #434343, #000000); /* Dark Wealthy Theme */
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 700; }
+.hero-content p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+
+.cta-btn {
+  padding: 12px 30px;
+  background: #00f2fe;
+  color: #000;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.cta-btn:hover { transform: scale(1.05); background: #4facfe; }
+
+/* 2. MARKET TICKER (Moving Text) */
+.market-ticker {
+  background: #111;
+  color: #0f0; /* Matrix Green */
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: monospace;
+  border-bottom: 2px solid #333;
+}
+
+.ticker-track {
+  display: inline-block;
+  animation: scrollTicker 15s linear infinite;
+}
+
+.ticker-track span {
+  margin-right: 50px;
+  font-weight: bold;
+}
+
+@keyframes scrollTicker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 3. PLANS GRID */
+.invest-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.plans-section h2 { text-align: center; margin-bottom: 40px; color: #333; }
 
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
+  margin-bottom: 60px;
 }
 
 .plan-card {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e0e0e0;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s;
+}
+
+.plan-card:hover { transform: translateY(-10px); }
+
+.card-header {
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.card-header i { font-size: 2rem; margin-bottom: 10px; }
+.card-header h3 { margin: 0; }
+
+.card-body { padding: 25px; }
+
+.plan-details { margin: 20px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 0; }
+.detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+
+.invest-btn {
+  width: 100%;
+  padding: 10px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.invest-btn:hover { background: #000; }
+
+/* 4. CALCULATOR SECTION */
+.calculator-section {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+
+.calc-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.calc-inputs {
+  flex: 1;
+  padding: 40px;
+  min-width: 300px;
+}
+
+.input-group { margin-bottom: 25px; }
+.input-group label { display: block; margin-bottom: 10px; font-weight: 600; color: #555; }
+.input-group input { width: 100%; cursor: pointer; }
+
+.calc-result {
+  flex: 1;
+  background: #222;
+  color: white;
+  padding: 40px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  text-align: center;
+}
+
+.result-amount { font-size: 3rem; font-weight: bold; color: #00f2fe; margin: 10px 0; }
+.profit-text { font-size: 1.2rem; }
+.green { color: #2ecc71; }
+.note { font-size: 0.8rem; margin-top: 20px; opacity: 0.6; }
+
+/* 5. WHY INVEST */
+.why-invest {
+  display: flex;
   justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.plan-card h3 {
-  color: #006442;
-  margin-bottom: 15px;
+.why-card {
+  flex: 1;
+  background: white;
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-.plan-card p {
-  line-height: 1.6;
-  flex-grow: 1; /* Makes card same height */
-  margin-bottom: 20px;
-}
+.why-card i { font-size: 2.5rem; color: #2ecc71; margin-bottom: 15px; }
+.why-card h4 { margin-bottom: 10px; font-size: 1.2rem; }
+.why-card p { color: #666; font-size: 0.9rem; }
 
-.plan-card .interest-rate {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #006442;
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 2.2rem; }
+  .calc-container { flex-direction: column; }
 }
