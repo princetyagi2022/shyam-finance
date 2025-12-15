@@ -1,0 +1,138 @@
+/* --- Main Page Layout --- */
+/* This centers the form on the screen with a nice background */
+.apply-loan-page {
+  min-height: 85vh; /* Takes up most of the screen */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); /* Subtle gradient */
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- The Form Card --- */
+.apply-form-container {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 450px; /* Keeps the form nice and compact */
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  border-top: 5px solid #004a99; /* Shyam Fin Brand Color on top */
+}
+
+/* --- Headings --- */
+.apply-form-container h2 {
+  text-align: center;
+  color: #003366;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.apply-form-container p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+/* --- Input Fields --- */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #fafafa;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #004a99;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.1); /* Blue glow on focus */
+}
+
+/* --- Button Styling --- */
+/* This targets the custom Button component wrapper */
+.apply-form-container button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+/* --- Success/Error Messages --- */
+.form-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* --- Bottom Switch Link (Login <-> Register) --- */
+.auth-switch-link {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.auth-switch-link p {
+  color: #555;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.auth-switch-link a {
+  color: #004a99;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.auth-switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 500px) {
+  .apply-form-container {
+    padding: 25px;
+    max-width: 100%;
+  }
+  
+  .apply-form-container h2 {
+    font-size: 1.5rem;
+  }
+}

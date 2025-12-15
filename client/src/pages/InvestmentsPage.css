@@ -1,0 +1,58 @@
+.investments-header {
+  background-color: #006442; /* A green color for investments */
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.investments-header h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.investments-content {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.investments-content h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.plan-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.plan-card h3 {
+  color: #006442;
+  margin-bottom: 15px;
+}
+
+.plan-card p {
+  line-height: 1.6;
+  flex-grow: 1; /* Makes card same height */
+  margin-bottom: 20px;
+}
+
+.plan-card .interest-rate {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #006442;
+}

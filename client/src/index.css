@@ -1,0 +1,40 @@
+/* This is a CSS reset and global style definition file */
+
+/* Box-sizing border-box is crucial for predictable layouts */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f4; /* A light grey background for the app */
+  line-height: 1.5;
+  color: #333; /* Default text color */
+}
+
+/* Make links non-underlined and use app colors */
+a {
+  color: #004a99;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
