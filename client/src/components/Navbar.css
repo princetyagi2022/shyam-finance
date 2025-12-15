@@ -1,6 +1,6 @@
-/* General Navbar Styling */
+/* General Navbar */
 .navbar {
-  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  background: #1c1b1b; /* Solid Dark Background */
   height: 80px;
   display: flex;
   justify-content: center;
@@ -8,7 +8,8 @@
   font-size: 1.2rem;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 9999; /* ✅ FIX: Keeps navbar on TOP of everything */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .navbar-container {
@@ -23,7 +24,6 @@
 
 .navbar-logo {
   color: #fff;
-  justify-self: start;
   cursor: pointer;
   text-decoration: none;
   font-size: 2rem;
@@ -49,96 +49,102 @@
   text-decoration: none;
   padding: 0.5rem 1rem;
   height: 100%;
-  transition: all 0.2s ease-out;
+  transition: color 0.2s;
 }
 
-.nav-links:hover {
-  color: #28a745; /* Green hover effect */
-}
+.nav-links:hover { color: #28a745; }
 
-/* User Section & Buttons */
+.nav-item-mobile { display: none; } /* Hide mobile buttons on desktop */
+
+/* Desktop Buttons */
 .nav-button-container {
   display: flex;
   align-items: center;
 }
-
-.welcome-text {
-  color: white;
-  margin-right: 15px;
-  font-size: 1rem;
-}
-
-.logout-link-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  margin-left: 10px;
-  font-size: 1rem;
-  text-decoration: underline;
-}
+.welcome-text { color: white; margin-right: 15px; font-size: 1rem; }
+.logout-link-btn { background: none; border: none; color: #fff; cursor: pointer; text-decoration: underline; }
 
 /* --- MOBILE RESPONSIVENESS --- */
-
 .menu-icon {
-  display: none; /* Hidden on desktop */
+  display: none;
 }
 
 @media screen and (max-width: 960px) {
-  .NavbarItems {
-    position: relative;
-  }
+  .nav-button-container { display: none; } /* Hide Desktop Buttons */
 
-  /* Show Hamburger Icon */
   .menu-icon {
     display: block;
     position: absolute;
     top: 0;
     right: 0;
-    transform: translate(-100%, 60%);
+    transform: translate(-100%, 40%); /* Centers the X/Hamburger vertically */
     font-size: 1.8rem;
     cursor: pointer;
-    color: #fff;
+    z-index: 10000; /* Icon must be above the menu */
   }
 
-  /* Hide the Button Container on Mobile (Optional: if it's too crowded) */
-  /* You might want to move these buttons inside the .nav-menu list for mobile */
-  .nav-button-container {
-    display: none; 
-  }
-
-  /* The Menu (Hidden by default, slides in when active) */
+  /* The Sliding Menu */
   .nav-menu {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 90vh; /* Full screen height minus navbar */
+    height: 100vh; /* Full screen */
     position: absolute;
-    top: 80px;
-    left: -100%; /* Hidden off-screen */
+    top: 0; /* Cover the whole screen including navbar area */
+    left: -100%;
     opacity: 1;
     transition: all 0.5s ease;
-    background-color: #1c1b1b; /* Match navbar color */
+    background-color: #1c1b1b;
+    padding-top: 100px; /* Push links down so they aren't behind the X */
+    z-index: 9998;
   }
 
   .nav-menu.active {
-    background: #242222;
-    left: 0; /* Slide in */
+    left: 0;
     opacity: 1;
-    transition: all 0.5s ease;
-    z-index: 1;
   }
 
   .nav-links {
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 100%;
     display: table;
+    font-size: 1.5rem; /* Bigger text on phone */
   }
 
-  .nav-links:hover {
-    background-color: #28a745;
+  .nav-item-mobile {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .mobile-auth-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-links-mobile {
+    display: block;
+    text-align: center;
+    padding: 12px 24px;
+    border-radius: 4px;
+    width: 80%;
+    background-color: transparent;
+    border: 2px solid #fff;
     color: #fff;
-    border-radius: 0;
+    font-size: 1.2rem;
+    text-decoration: none;
+  }
+
+  .nav-links-mobile:hover {
+    background: #fff;
+    color: #1c1b1b;
+  }
+
+  .nav-links-mobile.register, .nav-links-mobile.logout {
+    background-color: #28a745;
+    border: none;
   }
 }
