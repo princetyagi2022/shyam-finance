@@ -20,7 +20,7 @@ const LoginPage = () => {
 
         try {
             // 1. Send login request
-            const res = await axios.post('http://localhost:3001/api/login', { email, password });
+            const res = await axios.post('https://shyam-finance.onrender.com/api/login', { email, password });
             
             // 2. Update global state
             login(res.data.user, res.data.token);
