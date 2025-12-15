@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
-import './UserDashboard.css'; // Ensure you have this CSS file
+import './UserDashboard.css';
 
 const UserDashboard = () => {
-    const { user, login } = useContext(AuthContext); // 'login' is used to update local storage
+    const { user, login } = useContext(AuthContext); 
     const [loans, setLoans] = useState([]);
     
     // Editing State
@@ -17,7 +17,8 @@ const UserDashboard = () => {
     // Fetch Loans
     useEffect(() => {
         if (user) {
-            axios.get(`http://localhost:3001/api/user-data/${user.id}`)
+            // ✅ FIX 1: Use Render URL
+            axios.get(`https://shyam-finance.onrender.com/api/user-data/${user.id}`)
                 .then(res => setLoans(res.data.loans))
                 .catch(err => console.log(err));
             
@@ -34,7 +35,8 @@ const UserDashboard = () => {
     // Save Profile Changes
     const handleSaveProfile = async () => {
         try {
-            await axios.put('http://localhost:3001/api/user/update', {
+            // ✅ FIX 2: Use Render URL
+            await axios.put('https://shyam-finance.onrender.com/api/user/update', {
                 userId: user.id,
                 email: formData.email,
                 phone: formData.phone
@@ -43,10 +45,9 @@ const UserDashboard = () => {
             alert('Profile Updated Successfully!');
             setIsEditing(false);
             
-            // Update the Context/LocalStorage with new data
-            // We keep the old token, just update the user object
+            // Update local state
             const updatedUser = { ...user, email: formData.email, phone: formData.phone };
-            const token = localStorage.getItem('shyamFinToken'); // Get existing token
+            const token = localStorage.getItem('shyamFinToken'); 
             login(updatedUser, token); 
 
         } catch (err) {
@@ -78,7 +79,7 @@ const UserDashboard = () => {
                     <div className="profile-details">
                         <div className="detail-row">
                             <label>Username:</label>
-                            <span>{user.username}</span> {/* Username cannot be changed */}
+                            <span>{user.username}</span>
                         </div>
                         
                         <div className="detail-row">

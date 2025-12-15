@@ -27,12 +27,12 @@ const ApplyLoanPage = () => {
     setMessage('');
 
     try {
-      // Updated payload to match your new Backend Schema
-      const res = await axios.post('http://localhost:3001/api/apply-loan', {
+      // ✅ FIX: Use the live Render URL instead of localhost
+      const res = await axios.post('https://shyam-finance.onrender.com/api/apply-loan', {
         userId: user.id,
         amount: amount,
-        loanType: loanType, // Sending Loan Type
-        tenure: tenure      // Sending Tenure
+        loanType: loanType,
+        tenure: tenure
       });
 
       setMessage('Application submitted successfully!');

@@ -12,12 +12,16 @@ const RegisterPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3001/api/register', formData);
+            // UPDATED: Using the Render Cloud URL
+            await axios.post('https://shyam-finance.onrender.com/api/register', formData);
+            
             alert('Registration Successful! Please Login.');
             navigate('/login');
         } catch (err) {
             console.error(err);
-            setMessage('Registration failed. User might already exist.');
+            // Improve error message to see what is wrong
+            const serverError = err.response?.data?.error || 'User might already exist.';
+            setMessage(`Registration failed: ${serverError}`);
         }
     };
 
