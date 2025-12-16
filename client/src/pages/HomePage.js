@@ -28,7 +28,7 @@ const HomePage = () => {
       <header className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content animate-on-scroll">
-          <span className="hero-badge">🚀 #1 Finance App in India</span>
+          <span className="hero-badge"> #1 Finance App in India</span>
           <h1>Banking on Your Future.</h1>
           <p>Secure loans, high-yield investments, and financial freedom at your fingertips.</p>
           
