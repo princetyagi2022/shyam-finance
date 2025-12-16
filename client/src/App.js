@@ -1,51 +1,54 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// Import your global components
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-
-// Import all your page components
+import Footer from './components/Footer'; // Assuming you have a Footer component
 import HomePage from './pages/HomePage';
 import LoansPage from './pages/LoansPage';
 import InvestmentsPage from './pages/InvestmentsPage';
-import ApplyLoanPage from './pages/ApplyLoanPage'; 
-import RegisterPage from './pages/RegisterPage'; // 1. IS THIS IMPORTED?
-import LoginPage from './pages/LoginPage';       // 2. IS THIS IMPORTED?
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import ApplyLoanPage from './pages/ApplyLoanPage';
 import UserDashboard from './pages/UserDashboard';
 import AdminPanel from './pages/AdminPanel';
+import { AuthProvider } from './context/AuthContext';
 
+// Create a layout component to handle the conditional rendering
+const Layout = () => {
+  const location = useLocation();
+  
+  // List of paths where we want to HIDE the Navbar and Footer
+  const hideNavAndFooter = location.pathname === '/admin-dashboard';
 
-// Import the App-level CSS
-import './App.css';
+  return (
+    <>
+      {/* Only show Navbar if we are NOT on the Admin Dashboard */}
+      {!hideNavAndFooter && <Navbar />}
+      
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/loans" element={<LoansPage />} />
+        <Route path="/investments" element={<InvestmentsPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/apply" element={<ApplyLoanPage />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminPanel />} />
+      </Routes>
+
+      {/* Only show Footer if we are NOT on the Admin Dashboard */}
+      {!hideNavAndFooter && <Footer />} 
+    </>
+  );
+};
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-             {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/loans" element={<LoansPage />} />
-            <Route path="/investments" element={<InvestmentsPage />} />
-            <Route path="/apply" element={<ApplyLoanPage />} />
-            
-            {/* Auth Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            
-            {/* Private Routes */}
-            <Route path="/dashboard" element={<UserDashboard />} /> 
-            
-            {/* FIX: Map the route used in LoginPage to your best Admin component */}
-            <Route path="/admin-dashboard" element={<AdminPanel />} /> 
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <AuthProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </AuthProvider>
   );
 }
+
 export default App;

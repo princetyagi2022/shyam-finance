@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import './AdminPanel.css'; // Make sure to use the new CSS below
+import { useNavigate, Link } from 'react-router-dom'; // ✅ Added Link import
+import './AdminPanel.css';
 
 const AdminPanel = () => {
     const { user, logout } = useContext(AuthContext);
@@ -13,7 +13,7 @@ const AdminPanel = () => {
     const [loans, setLoans] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('loans'); 
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // For mobile sidebar
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false); 
 
     // Protect Route
     useEffect(() => {
@@ -27,7 +27,7 @@ const AdminPanel = () => {
     // Fetch Data from Live Backend
     const fetchAdminData = async () => {
         try {
-            // ✅ FIX: Use Render URL
+            // ✅ Using Render URL
             const res = await axios.get('https://shyam-finance.onrender.com/api/admin/data');
             setUsers(res.data.users);
             setLoans(res.data.loans);
@@ -41,12 +41,11 @@ const AdminPanel = () => {
     // Handle Status Update
     const handleStatusUpdate = async (loanId, newStatus) => {
         try {
-            // ✅ FIX: Use Render URL
             await axios.post('https://shyam-finance.onrender.com/api/admin/update-status', {
                 applicationId: loanId,
                 newStatus: newStatus
             });
-            fetchAdminData(); // Refresh data
+            fetchAdminData(); 
             alert(`Loan ${newStatus} successfully!`);
         } catch (err) {
             alert('Failed to update status.');
@@ -74,6 +73,8 @@ const AdminPanel = () => {
                 </div>
                 
                 <nav className="sidebar-nav">
+                    {/* Admin Tabs */}
+                    <div className="nav-label">Management</div>
                     <button 
                         className={activeTab === 'loans' ? 'active' : ''} 
                         onClick={() => { setActiveTab('loans'); setMobileMenuOpen(false); }}
@@ -86,6 +87,12 @@ const AdminPanel = () => {
                     >
                         👥 Registered Users
                     </button>
+
+                    {/* ✅ NEW: Website Links Section */}
+                    <div className="nav-label" style={{marginTop: '20px'}}>Public Website</div>
+                    <Link to="/" className="sidebar-link">🏠 Home Page</Link>
+                    <Link to="/loans" className="sidebar-link">💰 Loans Page</Link>
+                    <Link to="/investments" className="sidebar-link">📈 Investments</Link>
                 </nav>
 
                 <div className="sidebar-footer">
