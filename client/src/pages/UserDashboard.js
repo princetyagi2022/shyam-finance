@@ -7,52 +7,63 @@ const UserDashboard = () => {
     const { user, login } = useContext(AuthContext); 
     const [loans, setLoans] = useState([]);
     
-    // Editing State
+    // ✅ STATE: Tracks if we are in "Edit Mode" or "View Mode"
     const [isEditing, setIsEditing] = useState(false);
+
+    // ✅ STATE: Holds the temporary data while typing
     const [formData, setFormData] = useState({
-        email: user?.email || '',
-        phone: user?.phone || ''
+        email: '',
+        phone: ''
     });
 
-    // Fetch Loans
+    // 1. Load User Data when page opens
     useEffect(() => {
         if (user) {
-            // ✅ FIX 1: Use Render URL
+            setFormData({
+                email: user.email || '',
+                phone: user.phone || ''
+            });
+
+            // Fetch Loans
             axios.get(`https://shyam-finance.onrender.com/api/user-data/${user.id}`)
                 .then(res => setLoans(res.data.loans))
-                .catch(err => console.log(err));
-            
-            // Sync form data with user data
-            setFormData({ email: user.email, phone: user.phone });
+                .catch(err => console.log("Error loading loans:", err));
         }
     }, [user]);
 
-    // Handle Input Change
+    // 2. Handle Typing in Input Fields
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Save Profile Changes
+    // 3. Save Changes to Backend
     const handleSaveProfile = async () => {
         try {
-            // ✅ FIX 2: Use Render URL
-            await axios.put('https://shyam-finance.onrender.com/api/user/update', {
-                userId: user.id,
-                email: formData.email,
-                phone: formData.phone
-            });
+            const token = localStorage.getItem('shyamFinToken'); // Get Token
             
-            alert('Profile Updated Successfully!');
-            setIsEditing(false);
-            
-            // Update local state
-            const updatedUser = { ...user, email: formData.email, phone: formData.phone };
-            const token = localStorage.getItem('shyamFinToken'); 
-            login(updatedUser, token); 
+            const res = await axios.put(
+                'https://shyam-finance.onrender.com/api/user/update', 
+                {
+                    userId: user.id,
+                    email: formData.email,
+                    phone: formData.phone
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` } // ✅ Important: Send Token
+                }
+            );
 
+            if (res.status === 200) {
+                alert('Profile Updated Successfully!');
+                setIsEditing(false); // Switch back to View Mode
+                
+                // Update Global User State
+                const updatedUser = { ...user, email: formData.email, phone: formData.phone };
+                login(updatedUser, token); 
+            }
         } catch (err) {
-            alert('Failed to update profile.');
-            console.error(err);
+            console.error("Update failed:", err);
+            alert('Failed to update profile. Please try again.');
         }
     };
 
@@ -64,10 +75,11 @@ const UserDashboard = () => {
             <p className="welcome-msg">Welcome back, <strong>{user.username}</strong>!</p>
 
             <div className="dashboard-grid">
-                {/* --- PROFILE CARD --- */}
+                {/* --- PROFILE CARD (Matches your Screenshot) --- */}
                 <div className="card profile-card">
                     <div className="card-header">
                         <h3>My Profile</h3>
+                        {/* ✅ Toggle Button: Shows 'Edit' or 'Save' */}
                         <button 
                             className="edit-btn" 
                             onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
@@ -79,14 +91,17 @@ const UserDashboard = () => {
                     <div className="profile-details">
                         <div className="detail-row">
                             <label>Username:</label>
-                            <span>{user.username}</span>
+                            {/* Username is never editable */}
+                            <span>{user.username}</span> 
                         </div>
                         
                         <div className="detail-row">
                             <label>Email:</label>
+                            {/* ✅ CONDITIONAL RENDERING: Input if editing, Text if not */}
                             {isEditing ? (
                                 <input 
                                     name="email" 
+                                    type="email"
                                     value={formData.email} 
                                     onChange={handleChange} 
                                     className="edit-input"
@@ -98,9 +113,11 @@ const UserDashboard = () => {
 
                         <div className="detail-row">
                             <label>Phone:</label>
+                            {/* ✅ CONDITIONAL RENDERING */}
                             {isEditing ? (
                                 <input 
                                     name="phone" 
+                                    type="tel"
                                     value={formData.phone} 
                                     onChange={handleChange} 
                                     className="edit-input"
@@ -110,8 +127,17 @@ const UserDashboard = () => {
                             )}
                         </div>
                         
+                        {/* Cancel Button (Only shows when editing) */}
                         {isEditing && (
-                             <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
+                             <button 
+                                className="cancel-btn" 
+                                onClick={() => {
+                                    setIsEditing(false);
+                                    setFormData({ email: user.email, phone: user.phone }); // Reset changes
+                                }}
+                             >
+                                ✖ Cancel
+                             </button>
                         )}
                     </div>
                 </div>
