@@ -24,7 +24,7 @@ const UserDashboard = () => {
                 phone: user.phone || ''
             });
 
-            // Fetch Loans from Render Backend
+            // Fetch Loans
             axios.get(`https://shyam-finance.onrender.com/api/user-data/${user.id}`)
                 .then(res => setLoans(res.data.loans))
                 .catch(err => console.log("Error loading loans:", err));
@@ -39,25 +39,33 @@ const UserDashboard = () => {
     // 3. Save Changes to Backend
     const handleSaveProfile = async () => {
         try {
-            // Send update to Render Backend
-            const res = await axios.put('https://shyam-finance.onrender.com/api/user/update', {
-                userId: user.id,
-                email: formData.email,
-                phone: formData.phone
-            });
+            const token = localStorage.getItem('shyamFinToken'); // Get Token
+            
+            // ✅ FIX: Send Token in Headers
+            const res = await axios.put(
+                'https://shyam-finance.onrender.com/api/user/update', 
+                {
+                    userId: user.id,
+                    email: formData.email,
+                    phone: formData.phone
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` } // Attach Token
+                }
+            );
 
             if (res.status === 200) {
                 alert('Profile Updated Successfully!');
                 setIsEditing(false); // Turn off edit mode
                 
-                // CRITICAL: Update the Global App State so changes show immediately
+                // Update Local State immediately
                 const updatedUser = { ...user, email: formData.email, phone: formData.phone };
-                const token = localStorage.getItem('shyamFinToken'); 
                 login(updatedUser, token); 
             }
         } catch (err) {
             console.error("Update failed:", err);
-            alert('Failed to update profile. Please try again.');
+            const errorMsg = err.response?.data?.error || 'Failed to update profile. Try logging in again.';
+            alert(errorMsg);
         }
     };
 
@@ -85,7 +93,7 @@ const UserDashboard = () => {
                     <div className="profile-details">
                         <div className="detail-row">
                             <label>Username:</label>
-                            <span>{user.username}</span> {/* Username cannot be changed */}
+                            <span>{user.username}</span>
                         </div>
                         
                         <div className="detail-row">
@@ -118,13 +126,12 @@ const UserDashboard = () => {
                             )}
                         </div>
                         
-                        {/* Cancel Button */}
                         {isEditing && (
                              <button 
                                 className="cancel-btn" 
                                 onClick={() => {
                                     setIsEditing(false);
-                                    setFormData({ email: user.email, phone: user.phone }); // Reset data
+                                    setFormData({ email: user.email, phone: user.phone });
                                 }}
                              >
                                 ✖ Cancel
